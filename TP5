@@ -1,0 +1,636 @@
+UTN
+PROGRAMACION II
+TP 5
+
+Caso Práctico 1
+1. Descripción general
+Se debe desarrollar un sistema de stock que permita gestionar productos en
+una tienda, controlando su disponibilidad, precios y categorías. La información se
+modelará utilizando clases, colecciones dinámicas y enumeraciones en Java.
+2. Clases a implementar Clase Producto
+Atributos:
+● id (String) → Identificador único del producto.
+● nombre (String) → Nombre del producto.
+● precio (double) → Precio del producto.
+● cantidad (int) → Cantidad en stock.
+● categoria (CategoriaProducto) → Categoría del producto.
+Métodos:
+● mostrarInfo() → Muestra en consola la información del producto.
+Enum CategoriaProducto
+Valores:
+● ALIMENTOS
+● ELECTRONICA
+● ROPA
+● HOGAR
+
+Método adicional:
+java public enum
+CategoriaProducto {
+ ALIMENTOS("Productos comestibles"),
+ ELECTRONICA("Dispositivos electrónicos"),
+ ROPA("Prendas de vestir"),
+HOGAR("Artículos para el hogar");
+private final String descripcion;
+CategoriaProducto(String descripcion) {
+this.descripcion = descripcion;
+ }
+ public String getDescripcion() {
+return descripcion;
+ }
+}
+
+Clase Inventario
+Atributo:
+● ArrayList<Producto> productos Métodos requeridos:
+● agregarProducto(Producto p)
+● listarProductos()
+● buscarProductoPorId(String id)
+● eliminarProducto(String id)
+● actualizarStock(String id, int nuevaCantidad)
+● filtrarPorCategoria(CategoriaProducto categoria)
+● obtenerTotalStock()
+● obtenerProductoConMayorStock()
+● filtrarProductosPorPrecio(double min, double max)
+● mostrarCategoriasDisponibles()
+3. Tareas a realizar
+1. Crear al menos cinco productos con diferentes categorías y agregarlos al
+inventario.
+2. Listar todos los productos mostrando su información y categoría.
+3. Buscar un producto por ID y mostrar su información.
+4. Filtrar y mostrar productos que pertenezcan a una categoría específica.
+5. Eliminar un producto por su ID y listar los productos restantes.
+6. Actualizar el stock de un producto existente.
+7. Mostrar el total de stock disponible.
+8. Obtener y mostrar el producto con mayor stock.
+9. Filtrar productos con precios entre $1000 y $3000.
+10. Mostrar las categorías disponibles con sus descripciones.
+CONCLUSIONES ESPERADAS
+● Comprender el uso de this para acceder a atributos de instancia.
+● Aplicar constructores sobrecargados para flexibilizar la creación de objetos.
+● Implementar métodos con el mismo nombre y distintos parámetros.
+● Representar objetos con toString() para mejorar la depuración.
+● Diferenciar y aplicar atributos y métodos estáticos en Java.
+
+● Reforzar el diseño modular y reutilizable mediante el paradigma orientado a
+objetos.
+📝 Nuevo Ejercicio Propuesto 2: Biblioteca y Libros
+1. Descripción general
+Se debe desarrollar un sistema para gestionar una biblioteca, en la cual se
+registren los libros disponibles y sus autores. La relación central es de
+composición 1 a N: una Biblioteca contiene múltiples Libros, y cada Libro
+pertenece obligatoriamente a una Biblioteca. Si la Biblioteca se elimina, también se
+eliminan sus Libros.
+2. Clases a implementar
+Clase Autor
+Atributos:
+• id (String) → Identificador único del autor.
+• nombre (String) → Nombre del autor.
+• nacionalidad (String) → Nacionalidad del autor.
+Métodos:
+• mostrarInfo() → Muestra la información del autor en consola.
+Clase Libro
+Atributos:
+• isbn (String) → Identificador único del libro.
+• titulo (String) → Título del libro.
+• anioPublicacion (int) → Año de publicación.
+• autor (Autor) → Autor del libro.
+Métodos:
+• mostrarInfo() → Muestra título, ISBN, año y autor.
+Clase Biblioteca
+Atributo:
+• String nombre
+• List<Libro> libros → Colección de libros de la biblioteca.
+
+Métodos requeridos:
+• agregarLibro(String isbn, String titulo,int anioPublicacion, Autor autor)
+• listarLibros()
+• buscarLibroPorIsbn(String isbn)
+• eliminarLibro(String isbn)
+• obtenerCantidadLibros()
+• filtrarLibrosPorAnio(int anio)
+• mostrarAutoresDisponibles()
+3. Tareas a realizar
+1. Creamos una biblioteca.
+2. Crear al menos tres autores
+3. Agregar 5 libros asociados a alguno de los Autores a la biblioteca.
+4. Listar todos los libros con su información y la del autor.
+5. Buscar un libro por su ISBN y mostrar su información.
+6. Filtrar y mostrar los libros publicados en un año específico.
+7. Eliminar un libro por su ISBN y listar los libros restantes.
+8. Mostrar la cantidad total de libros en la biblioteca.
+9. Listar todos los autores de los libros disponibles en la biblioteca.
+Conclusiones esperadas
+● Comprender la composición 1 a N entre Biblioteca y Libro.
+● Reforzar el manejo de colecciones dinámicas (ArrayList).
+● Practicar el uso de métodos de búsqueda, filtrado y eliminación.
+● Mejorar la modularidad aplicando el paradigma de programación
+orientada a objetos.
+📝 Ejercicio: Universidad, Profesor y Curso (bidireccional 1
+a N)
+1. Descripción general
+Se debe modelar un sistema académico donde un Profesor dicta muchos Cursos y
+cada Curso tiene exactamente un Profesor responsable. La relación Profesor–
+Curso es bidireccional:
+• Desde Curso se accede a su Profesor.
+• Desde Profesor se accede a la lista de Cursos que dicta.
+Además, existe la clase Universidad que administra el alta/baja y consulta
+de profesores y cursos.
+
+Invariante de asociación: cada vez que se asigne o cambie el profesor de un curso,
+debe actualizarse en los dos lados (agregar/quitar en la lista del profesor
+correspondiente).
+2. Clases a implementar
+Clase Profesor
+Atributos:
+• id (String) → Identificador único.
+• nombre (String) → Nombre completo.
+• especialidad (String) → Área principal.
+• List<Curso> cursos → Cursos que dicta.
+Métodos sugeridos:
+• agregarCurso(Curso c) → Agrega el curso a su lista si no está y sincroniza
+el lado del curso.
+• eliminarCurso(Curso c) → Quita el curso y sincroniza el lado del curso
+(dejar profesor en null si corresponde).
+• listarCursos() → Muestra códigos y nombres.
+• mostrarInfo() → Imprime datos del profesor y cantidad de cursos.
+Clase Curso
+Atributos:
+• codigo (String) → Código único.
+• nombre (String) → Nombre del curso.
+• profesor (Profesor) → Profesor responsable.
+Métodos sugeridos:
+• setProfesor(Profesor p) → Asigna/cambia el profesor sincronizando
+ambos lados:
+o Si tenía profesor previo, quitarse de su lista.
+• mostrarInfo() → Muestra código, nombre y nombre del profesor (si tiene).
+Clase Universidad
+Atributos:
+• String nombre
+
+• List<Profesor> profesores
+• List<Curso> cursos
+Métodos requeridos:
+• agregarProfesor(Profesor p)
+• agregarCurso(Curso c)
+• asignarProfesorACurso(String codigoCurso, String idProfesor) → Usa
+setProfesor del curso.
+• listarProfesores() / listarCursos()
+• buscarProfesorPorId(String id)
+• buscarCursoPorCodigo(String codigo)
+• eliminarCurso(String codigo) → Debe romper la relación con su profesor
+si la hubiera.
+• eliminarProfesor(String id) → Antes de remover, dejar null los cursos que
+dictaba.
+Tareas a realizar
+1. Crear al menos 3 profesores y 5 cursos.
+2. Agregar profesores y cursos a la universidad.
+3. Asignar profesores a cursos usando asignarProfesorACurso(...).
+4. Listar cursos con su profesor y profesores con sus cursos.
+5. Cambiar el profesor de un curso y verificar que ambos lados quedan
+sincronizados.
+6. Remover un curso y confirmar que ya no aparece en la lista del profesor.
+7. Remover un profesor y dejar profesor = null,
+8. Mostrar un reporte: cantidad de cursos por profesor.
+Conclusiones esperadas
+• Diferenciar bidireccionalidad de una relación unidireccional (navegación
+desde ambos extremos).
+• Mantener invariantes de asociación (coherencia de referencias) al agregar,
+quitar o reasignar.
+• Practicar colecciones (ArrayList), búsquedas y operaciones de alta/baja.
+• Diseñar métodos “seguros” que sincronicen los dos lados siempre.
+
+
+
+
+
+
+
+1) public enum CategoriaProducto {
+    ALIMENTOS("Productos comestibles"),
+    ELECTRONICA("Dispositivos electrónicos"),
+    ROPA("Prendas de vestir"),
+    HOGAR("Artículos para el hogar");
+
+    private final String descripcion;
+
+    CategoriaProducto(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+}
+public class Producto {
+    private String id;
+    private String nombre;
+    private double precio;
+    private int cantidad;
+    private CategoriaProducto categoria;
+
+    public Producto(String id, String nombre, double precio, int cantidad, CategoriaProducto categoria) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.categoria = categoria;
+    }
+
+    public void mostrarInfo() {
+        System.out.println("ID: " + id + ", Nombre: " + nombre + ", Precio: $" + precio +
+                ", Cantidad: " + cantidad + ", Categoría: " + categoria +
+                " (" + categoria.getDescripcion() + ")");
+    }
+
+    public String getId() { return id; }
+    public double getPrecio() { return precio; }
+    public int getCantidad() { return cantidad; }
+    public CategoriaProducto getCategoria() { return categoria; }
+    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Inventario inv = new Inventario();
+
+        // 1. Crear productos
+        inv.agregarProducto(new Producto("P1", "Arroz", 800, 50, CategoriaProducto.ALIMENTOS));
+        inv.agregarProducto(new Producto("P2", "Notebook", 250000, 5, CategoriaProducto.ELECTRONICA));
+        inv.agregarProducto(new Producto("P3", "Remera", 3500, 20, CategoriaProducto.ROPA));
+        inv.agregarProducto(new Producto("P4", "Sillón", 150000, 2, CategoriaProducto.HOGAR));
+        inv.agregarProducto(new Producto("P5", "Yerba", 1200, 40, CategoriaProducto.ALIMENTOS));
+
+        // 2. Listar productos
+        inv.listarProductos();
+        System.out.println("-----");
+
+        // 3. Buscar por ID
+        inv.buscarProductoPorId("P3").mostrarInfo();
+        System.out.println("-----");
+
+        // 4. Filtrar por categoría
+        inv.filtrarPorCategoria(CategoriaProducto.ALIMENTOS);
+        System.out.println("-----");
+
+        // 5. Eliminar producto
+        inv.eliminarProducto("P4");
+        inv.listarProductos();
+        System.out.println("-----");
+
+        // 6. Actualizar stock
+        inv.actualizarStock("P3", 30);
+        inv.buscarProductoPorId("P3").mostrarInfo();
+        System.out.println("-----");
+
+        // 7. Total stock
+        System.out.println("Total de stock: " + inv.obtenerTotalStock());
+        System.out.println("-----");
+
+        // 8. Producto con más stock
+        inv.obtenerProductoConMayorStock().mostrarInfo();
+        System.out.println("-----");
+
+        // 9. Filtrar por precio
+        inv.filtrarProductosPorPrecio(1000, 3000);
+        System.out.println("-----");
+
+        // 10. Categorías disponibles
+        inv.mostrarCategoriasDisponibles();
+    }
+}
+
+2)
+
+public class Autor {
+    private String id;
+    private String nombre;
+    private String nacionalidad;
+
+    public Autor(String id, String nombre, String nacionalidad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.nacionalidad = nacionalidad;
+    }
+
+    public void mostrarInfo() {
+        System.out.println("Autor: " + nombre + " (" + nacionalidad + "), ID: " + id);
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+}
+public class Libro {
+    private String isbn;
+    private String titulo;
+    private int anioPublicacion;
+    private Autor autor;
+
+    public Libro(String isbn, String titulo, int anioPublicacion, Autor autor) {
+        this.isbn = isbn;
+        this.titulo = titulo;
+        this.anioPublicacion = anioPublicacion;
+        this.autor = autor;
+    }
+
+    public void mostrarInfo() {
+        System.out.println("ISBN: " + isbn + ", Título: " + titulo +
+                ", Año: " + anioPublicacion + ", Autor: " + autor.getNombre());
+    }
+
+    public String getIsbn() { return isbn; }
+    public int getAnioPublicacion() { return anioPublicacion; }
+    public Autor getAutor() { return autor; }
+}
+import java.util.ArrayList;
+import java.util.List;
+
+public class Biblioteca {
+    private String nombre;
+    private List<Libro> libros;
+
+    public Biblioteca(String nombre) {
+        this.nombre = nombre;
+        this.libros = new ArrayList<>();
+    }
+
+    public void agregarLibro(String isbn, String titulo, int anioPublicacion, Autor autor) {
+        libros.add(new Libro(isbn, titulo, anioPublicacion, autor));
+    }
+
+    public void listarLibros() {
+        for (Libro l : libros) l.mostrarInfo();
+    }
+
+    public Libro buscarLibroPorIsbn(String isbn) {
+        for (Libro l : libros)
+            if (l.getIsbn().equalsIgnoreCase(isbn)) return l;
+        return null;
+    }
+
+    public void eliminarLibro(String isbn) {
+        libros.removeIf(l -> l.getIsbn().equalsIgnoreCase(isbn));
+    }
+
+    public int obtenerCantidadLibros() {
+        return libros.size();
+    }
+
+    public void filtrarLibrosPorAnio(int anio) {
+        for (Libro l : libros)
+            if (l.getAnioPublicacion() == anio) l.mostrarInfo();
+    }
+
+    public void mostrarAutoresDisponibles() {
+        System.out.println("Autores en la biblioteca:");
+        libros.stream().map(l -> l.getAutor().getNombre()).distinct().forEach(System.out::println);
+    }
+}
+public class MainBiblioteca {
+    public static void main(String[] args) {
+        // 1. Crear biblioteca
+        Biblioteca biblio = new Biblioteca("Biblioteca Nacional");
+
+        // 2. Crear autores
+        Autor a1 = new Autor("A1", "Gabriel García Márquez", "Colombiana");
+        Autor a2 = new Autor("A2", "Jorge Luis Borges", "Argentina");
+        Autor a3 = new Autor("A3", "Julio Cortázar", "Argentina");
+
+        // 3. Agregar libros
+        biblio.agregarLibro("L1", "Cien años de soledad", 1967, a1);
+        biblio.agregarLibro("L2", "El Aleph", 1945, a2);
+        biblio.agregarLibro("L3", "Rayuela", 1963, a3);
+        biblio.agregarLibro("L4", "Ficciones", 1944, a2);
+        biblio.agregarLibro("L5", "Crónica de una muerte anunciada", 1981, a1);
+
+        // 4. Listar todos los libros
+        biblio.listarLibros();
+        System.out.println("-----");
+
+        // 5. Buscar por ISBN
+        biblio.buscarLibroPorIsbn("L3").mostrarInfo();
+        System.out.println("-----");
+
+        // 6. Filtrar por año
+        biblio.filtrarLibrosPorAnio(1945);
+        System.out.println("-----");
+
+        // 7. Eliminar un libro
+        biblio.eliminarLibro("L4");
+        biblio.listarLibros();
+        System.out.println("-----");
+
+        // 8. Cantidad total
+        System.out.println("Cantidad total de libros: " + biblio.obtenerCantidadLibros());
+        System.out.println("-----");
+
+        // 9. Autores disponibles
+        biblio.mostrarAutoresDisponibles();
+    }
+}
+3)
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Profesor {
+    private String id;
+    private String nombre;
+    private String especialidad;
+    private List<Curso> cursos = new ArrayList<>();
+
+    public Profesor(String id, String nombre, String especialidad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.especialidad = especialidad;
+    }
+
+    public void agregarCurso(Curso c) {
+        if (!cursos.contains(c)) {
+            cursos.add(c);
+            c.setProfesor(this);
+        }
+    }
+
+    public void eliminarCurso(Curso c) {
+        if (cursos.remove(c)) {
+            c.setProfesor(null);
+        }
+    }
+
+    public void listarCursos() {
+        System.out.println("Cursos de " + nombre + ":");
+        for (Curso c : cursos) {
+            System.out.println("- " + c.getCodigo() + ": " + c.getNombre());
+        }
+    }
+
+    public void mostrarInfo() {
+        System.out.println("Profesor: " + nombre + " (" + especialidad + "), dicta " + cursos.size() + " cursos.");
+    }
+
+    public String getId() { return id; }
+    public String getNombre() { return nombre; }
+    public List<Curso> getCursos() { return cursos; }
+}
+public class Curso {
+    private String codigo;
+    private String nombre;
+    private Profesor profesor;
+
+    public Curso(String codigo, String nombre) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+    }
+
+    public void setProfesor(Profesor p) {
+        if (this.profesor != null) {
+            this.profesor.getCursos().remove(this);
+        }
+        this.profesor = p;
+        if (p != null && !p.getCursos().contains(this)) {
+            p.getCursos().add(this);
+        }
+    }
+
+    public void mostrarInfo() {
+        String prof = (profesor != null) ? profesor.getNombre() : "Sin asignar";
+        System.out.println("Curso: " + nombre + " (" + codigo + "), Profesor: " + prof);
+    }
+
+    public String getCodigo() { return codigo; }
+    public String getNombre() { return nombre; }
+    public Profesor getProfesor() { return profesor; }
+}
+import java.util.ArrayList;
+import java.util.List;
+
+public class Universidad {
+    private String nombre;
+    private List<Profesor> profesores = new ArrayList<>();
+    private List<Curso> cursos = new ArrayList<>();
+
+    public Universidad(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void agregarProfesor(Profesor p) {
+        profesores.add(p);
+    }
+
+    public void agregarCurso(Curso c) {
+        cursos.add(c);
+    }
+
+    public Profesor buscarProfesorPorId(String id) {
+        for (Profesor p : profesores)
+            if (p.getId().equalsIgnoreCase(id)) return p;
+        return null;
+    }
+
+    public Curso buscarCursoPorCodigo(String codigo) {
+        for (Curso c : cursos)
+            if (c.getCodigo().equalsIgnoreCase(codigo)) return c;
+        return null;
+    }
+
+    public void asignarProfesorACurso(String codigoCurso, String idProfesor) {
+        Curso c = buscarCursoPorCodigo(codigoCurso);
+        Profesor p = buscarProfesorPorId(idProfesor);
+        if (c != null && p != null) {
+            c.setProfesor(p);
+        }
+    }
+
+    public void listarProfesores() {
+        for (Profesor p : profesores) p.mostrarInfo();
+    }
+
+    public void listarCursos() {
+        for (Curso c : cursos) c.mostrarInfo();
+    }
+
+    public void eliminarCurso(String codigo) {
+        Curso c = buscarCursoPorCodigo(codigo);
+        if (c != null) {
+            if (c.getProfesor() != null) {
+                c.getProfesor().getCursos().remove(c);
+            }
+            cursos.remove(c);
+        }
+    }
+
+    public void eliminarProfesor(String id) {
+        Profesor p = buscarProfesorPorId(id);
+        if (p != null) {
+            for (Curso c : new ArrayList<>(p.getCursos())) {
+                c.setProfesor(null);
+            }
+            profesores.remove(p);
+        }
+    }
+
+    public void mostrarReporteCursosPorProfesor() {
+        System.out.println("=== Reporte: Cantidad de cursos por profesor ===");
+        for (Profesor p : profesores) {
+            System.out.println(p.getNombre() + ": " + p.getCursos().size() + " cursos");
+        }
+    }
+}
+public class MainUniversidad {
+    public static void main(String[] args) {
+        Universidad uni = new Universidad("UTN");
+
+        // 1. Crear profesores
+        Profesor p1 = new Profesor("P1", "Ana López", "Matemática");
+        Profesor p2 = new Profesor("P2", "Juan Pérez", "Programación");
+        Profesor p3 = new Profesor("P3", "Laura Gómez", "Física");
+
+        // 2. Crear cursos
+        Curso c1 = new Curso("C1", "Álgebra");
+        Curso c2 = new Curso("C2", "Java Inicial");
+        Curso c3 = new Curso("C3", "Redes I");
+        Curso c4 = new Curso("C4", "Física I");
+        Curso c5 = new Curso("C5", "Base de Datos");
+
+        // 3. Agregar a la universidad
+        uni.agregarProfesor(p1);
+        uni.agregarProfesor(p2);
+        uni.agregarProfesor(p3);
+        uni.agregarCurso(c1);
+        uni.agregarCurso(c2);
+        uni.agregarCurso(c3);
+        uni.agregarCurso(c4);
+        uni.agregarCurso(c5);
+
+        // 4. Asignar profesores
+        uni.asignarProfesorACurso("C1", "P1");
+        uni.asignarProfesorACurso("C2", "P2");
+        uni.asignarProfesorACurso("C3", "P2");
+        uni.asignarProfesorACurso("C4", "P3");
+
+        // 5. Listar cursos y profesores
+        uni.listarCursos();
+        System.out.println("-----");
+        uni.listarProfesores();
+
+        // 6. Cambiar profesor de un curso
+        uni.asignarProfesorACurso("C3", "P1");
+        System.out.println("----- Después de cambiar profesor -----");
+        uni.listarCursos();
+
+        // 7. Eliminar un curso
+        uni.eliminarCurso("C2");
+        System.out.println("----- Cursos tras eliminar C2 -----");
+        uni.listarCursos();
+
+        // 8. Eliminar profesor
+        uni.eliminarProfesor("P3");
+        System.out.println("----- Profesores tras eliminar P3 -----");
+        uni.listarProfesores();
+
+        // 9. Reporte
+        uni.mostrarReporteCursosPorProfesor();
+    }
+}
+
