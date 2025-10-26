@@ -1,0 +1,194 @@
+TRABAJO PRACTICO N° 8
+
+
+CARLOS GABRIEL CARBAJAL ROBLES
+COMISION 11
+
+Interfaces en un sistema de E-commerce
+1. Interfaz Pagable
+public interface Pagable {
+    double calcularTotal();
+}
+2. Clase Producto
+public class Producto implements Pagable {
+    private String nombre;
+    private double precio;
+
+    public Producto(String nombre, double precio) {
+        this.nombre = nombre;
+        this.precio = precio;
+    }
+
+    public String getNombre() { return nombre; }
+    public double getPrecio() { return precio; }
+
+    @Override
+    public double calcularTotal() {
+        return precio;
+    }
+}
+3. Clase Pedido
+import java.util.ArrayList;
+import java.util.List;
+
+public class Pedido implements Pagable {
+    private List<Producto> productos;
+    private Cliente cliente;
+    private String estado;
+
+    public Pedido(Cliente cliente) {
+        this.cliente = cliente;
+        this.productos = new ArrayList<>();
+        this.estado = "CREADO";
+    }
+
+    public void agregarProducto(Producto p) {
+        productos.add(p);
+    }
+
+    public void cambiarEstado(String nuevoEstado) {
+        this.estado = nuevoEstado;
+        cliente.notificar("El pedido cambió a: " + estado);
+    }
+
+    @Override
+    public double calcularTotal() {
+        double total = 0;
+        for (Producto p : productos) {
+            total += p.calcularTotal();
+        }
+        return total;
+    }
+}
+4. Interfaces de pago
+public interface Pago {
+    void procesarPago(double monto);
+}
+
+public interface PagoConDescuento extends Pago {
+    double aplicarDescuento(double porcentaje);
+}
+5. Clases de medios de pago
+public class TarjetaCredito implements PagoConDescuento {
+    @Override
+    public void procesarPago(double monto) {
+        System.out.println("Pago con tarjeta procesado: $" + monto);
+    }
+
+    @Override
+    public double aplicarDescuento(double porcentaje) {
+        return porcentaje > 0 ? porcentaje * 0.9 : 0;
+    }
+}
+
+public class PayPal implements Pago {
+    @Override
+    public void procesarPago(double monto) {
+        System.out.println("Pago con PayPal procesado: $" + monto);
+    }
+}
+6. Interfaz Notificable y clase Cliente
+public interface Notificable {
+    void notificar(String mensaje);
+}
+
+public class Cliente implements Notificable {
+    private String nombre;
+
+    public Cliente(String nombre) {
+        this.nombre = nombre;
+    }
+
+    @Override
+    public void notificar(String mensaje) {
+        System.out.println("Notificación para " + nombre + ": " + mensaje);
+    }
+}
+Ejercicios sobre Excepciones
+1. División segura
+import java.util.Scanner;
+
+public class DivisionSegura {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Numerador: ");
+        int a = sc.nextInt();
+        System.out.print("Divisor: ");
+        int b = sc.nextInt();
+
+        try {
+            int resultado = a / b;
+            System.out.println("Resultado: " + resultado);
+        } catch (ArithmeticException e) {
+            System.out.println("Error: No se puede dividir por cero.");
+        }
+    }
+}
+2. Conversión de cadena a número
+Scanner sc = new Scanner(System.in);
+System.out.print("Ingresa un número: ");
+String input = sc.nextLine();
+try {
+    int num = Integer.parseInt(input);
+    System.out.println("Número válido: " + num);
+} catch (NumberFormatException e) {
+    System.out.println("Error: Entrada inválida.");
+}
+3. Lectura de archivo
+import java.io.*;
+
+public class LeerArchivo {
+    public static void main(String[] args) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("archivo.txt"));
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                System.out.println(linea);
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado.");
+        } catch (IOException e) {
+            System.out.println("Error leyendo el archivo.");
+        }
+    }
+}
+4. Excepción personalizada
+class EdadInvalidaException extends Exception {
+    public EdadInvalidaException(String mensaje) {
+        super(mensaje);
+    }
+}
+
+public class TestEdad {
+    public static void validarEdad(int edad) throws EdadInvalidaException {
+        if (edad < 0 || edad > 120) {
+            throw new EdadInvalidaException("Edad inválida: " + edad);
+        }
+        System.out.println("Edad válida: " + edad);
+    }
+
+    public static void main(String[] args) {
+        try {
+            validarEdad(150);
+        } catch (EdadInvalidaException e) {
+            System.out.println("Excepción capturada: " + e.getMessage());
+        }
+    }
+}
+5. Try-with-resources
+import java.io.*;
+
+public class TryWithResources {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new FileReader("archivo.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                System.out.println(linea);
+            }
+        } catch (IOException e) {
+            System.out.println("Error leyendo el archivo: " + e.getMessage());
+        }
+    }
+}
+
